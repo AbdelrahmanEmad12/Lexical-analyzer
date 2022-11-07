@@ -1,0 +1,31 @@
+TEXT [a-zA-Z_][a-zA-Z0-9]*
+NUM  [0-9]
+EXP ([eE][+-]?{NUM})
+
+%%
+{NUM}+ {printf( "INT,%s\n", yytext );}
+
+{NUM}+"."{NUM}* {printf( "FLOAT,%s\n", yytext );}
+
+{TEXT} {printf( "text,%s\n", yytext );}
+
+{EXP} {printf( "EXPONENTIAL,%s\n", yytext );}
+
+\+|\-|\*|\/ printf ("arithmetic operator\n");
+
+"=" printf ("assignment\n");
+
+"=="|\<|\>|"<="|">="|"!=" printf ("comparison operator\n");
+.
+%%
+
+main ()
+{ 
+yylex();
+}
+
+yywrap()
+{
+return 1;
+}
+ 
